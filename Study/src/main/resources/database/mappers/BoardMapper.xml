@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.Study.board.BoardMapper">
+
+	<sql id="searcher">
+		<!-- 공통으로 사용하는 sql문 -->
+		<where>
+			title like concat('%', #{search}, '%') or contents like concat('%',
+			#{search}, '%')
+		</where>
+	</sql>
+
+	<select id="getList" resultType="BoardVO" parameterType="Pager">
+		select * from qna
+		<include refid="searcher"></include>
+		order by num desc
+		limit #{startRow}, #{perPage}
+		<!-- limit 시작index번호(0부터시작), 갯수 -->
+	</select>
+
+	<select id="getTotalCount" parameterType="Pager"
+		resultType="java.lang.Long">
+		select count(num) from qna
+		<include refid="searcher"></include>
+	</select>
+
+	<select id="getSelect" resultType="BoardVO"
+		parameterType="BoardVO">
+		SELECT * from qna WHERE num=#{num}
+	</select>
+	
+	<delete id="setDelete" parameterType="BoardVO">
+		Delete from qna where num= #{num}
+	</delete>
+
+	<update id="setUpdate" parameterType="BoardVO">
+		Update qna set title=#{title}, contents=#{contents}
+		where num = #{num}
+	</update>
+	
+	<insert id="setInsert" parameterType="BoardVO" useGeneratedKeys="true" keyProperty="num">
+		Insert into qna(title, contents)
+					values(#{title}, #{contents})
+	</insert>
+
+</mapper>
