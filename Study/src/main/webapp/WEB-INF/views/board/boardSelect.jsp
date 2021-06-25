@@ -6,10 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<c:import url="../template/hm_import.jsp"></c:import>
 </head>
 <body>
+<c:import url="../template/header.jsp"></c:import>
+<h1>&nbsp;</h1>
+<h1>&nbsp;</h1>
 <div class="container">
 
 
@@ -20,7 +22,9 @@
 
 	
 	<a href="./${board}Update?num=${vo.num}" class="btn btn-primary">Update</a>
-	<a href="./${board}Delete?num=${vo.num}" class="btn btn-link" onclick="if(!confirm('게시글을 삭제하시겠습니다?')){return false;}">Delete</a>
+	<c:if test="${member.admin eq '1'}">
+		<a href="./${board}Delete?num=${vo.num}" class="btn btn-link" onclick="if(!confirm('게시글을 삭제하시겠습니다?')){return false;}">Delete</a>
+	</c:if>
 </div>
 </body>
 </html>

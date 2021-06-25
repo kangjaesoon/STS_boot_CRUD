@@ -8,7 +8,7 @@
 
 <meta charset="UTF-8">
 <title>Insert title here</title>
-  <c:import url="../template/hm_import.jsp"></c:import>
+<c:import url="../template/hm_import.jsp"></c:import>
 <style type="text/css">
 #sample {
 	/* display: none; */
@@ -16,7 +16,9 @@
 </style>
 </head>
 <body>
-
+<c:import url="../template/header.jsp"></c:import>
+<h1>&nbsp;</h1>
+<h1>&nbsp;</h1>
 	<div class="container">
 		<h2>${board}Insert</h2>
 		<form id="frm" action="./${board}Insert" method="post" enctype="multipart/form-data">
@@ -40,15 +42,12 @@
 
 
 <script type="text/javascript">
-
-
 $(function() {
   $('#summernote').summernote({
     height: 300,
     lang: 'ko-KR' // 언어 세팅
   });
 });
-
 </script>
 
 

@@ -5,24 +5,28 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시판</title>
+<c:import url="../template/hm_import.jsp"></c:import>
 </head>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <body>
+	<c:import url="../template/header.jsp"></c:import>
+
+	<h2>&nbsp;</h2>
+	<h2>&nbsp;</h2>
+
 	<div class="container">
 
-		<h2>${board}List</h2>
+
+		<h2>
+			<a href="./${board}List">${board}List</a>
+		</h2>
 
 		<table class="table">
 			<thead class="thead-dark">
 				<tr>
+					<c:if test="${member.admin eq '1'}">
+						<th><input type="checkbox" id="allCheck" name="allCheck" /></th>
+					</c:if>
 					<th>분류</th>
 					<th>TITLE</th>
 					<th>DATE</th>
@@ -32,6 +36,10 @@
 			<tbody>
 				<c:forEach items="${list}" var="dto">
 					<tr>
+						<c:if test="${member.admin eq '1'}">
+							<th><input type="checkbox" name="RowCheck"
+								value="${dto.num}" class="chBox"></th>
+						</c:if>
 						<td>Q.</td>
 						<td><a href="./${board}Select?num=${dto.num}">
 								${dto.title} </a></td>
@@ -52,7 +60,6 @@
 			</c:if>
 
 			<c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
-
 				<li class="page-item"><a class="page-link p" href="#"
 					title="${i}">${i}</a></li>
 			</c:forEach>
@@ -75,15 +82,30 @@
 			</form>
 		</div>
 		<a href="./${board}Insert" class="btn  btn-primary" role="button">Write</a>
+		<input type="button" value="ChoiceDelete" class="btn  btn-primary">
 		<script type="text/javascript">
 			let kind = '${pager.kind}';//Title, Writer, Contents
 
 			$(".p").click(function() {
 				let curPage = $(this).attr("title");
 				$("#curPage").val(curPage);
-				let search= '${pager.search}';
+				let search = '${pager.search}';
 				$("#frm").submit();
 
+			});
+			
+			
+			$("#allCheck").click(function(){
+				var check = $("#allCheck").prop("checked");
+				if(check){
+					$(".chBox").prop("checked", true);
+				}else{
+					$(".chBox").prop("checked", false);
+				}
+			});
+			
+			$(".chBox").click(function(){
+				$("#allCheck").prop("checked", false);
 			});
 		</script>
 	</div>

@@ -14,7 +14,9 @@
 
 </head>
 <body>
-
+<c:import url="../template/header.jsp"></c:import>
+<h1>&nbsp;</h1>
+<h1>&nbsp;</h1>
 	<div class="container">
 		<h2>${board}Update form</h2>
 		<form id="frm" action="./${board}Update" method="post">

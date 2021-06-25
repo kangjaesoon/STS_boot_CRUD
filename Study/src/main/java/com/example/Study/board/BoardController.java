@@ -2,6 +2,8 @@ package com.example.Study.board;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,19 +28,25 @@ public class BoardController {
 	private BoardService boardService;
 
 	@GetMapping("boardList") 
-	public String getList(Pager pager, Model model)throws Exception{
+	public String getList(Pager pager, Model model, HttpSession session)throws Exception{
 		String msg;
-		List<BoardVO> ar = boardService.getList(pager);
-		System.out.println(ar);
-		if(ar.isEmpty()) {
-			System.out.println("ㄴㄴ없음");
-			msg = "redirect:/board/boardList";
+		if(session.getAttribute("member") == null) {
+			msg= "redirect:../";
 		}else {
-			model.addAttribute("list",ar);
-			model.addAttribute("pager",pager);
-			msg = "board/boardList";
+			
+			List<BoardVO> ar = boardService.getList(pager);
+			System.out.println(ar);
+			if(ar.isEmpty()) {
+				System.out.println("ㄴㄴ없음");
+				msg = "redirect:/board/boardList";
+			}else {
+				model.addAttribute("list",ar);
+				model.addAttribute("pager",pager);
+				msg = "board/boardList";
+			}
+	
 		}
-		
+				
 		return msg;
 	}
 	
@@ -82,6 +90,7 @@ public class BoardController {
 	
 	@PostMapping("boardInsert")
 	public String setInsert(BoardVO boardVO)throws Exception{
+		System.out.println("111"+boardVO);
 		int result = boardService.setInsert(boardVO);
 		return "redirect:./boardList";
 	}
